@@ -22,8 +22,9 @@ class simulateur():
    def __init__(self):
       self.jour1=[]
       self.jour2=[]
-   #data2jours=[jour 1: [matin: [ , , ], midi: [ , ], aprem: [ , , ], nuit: []], jour 2: [matin: [ , , ], midi: [ , ], soir: [ , , ], nuit: []]]
-   #initialisation de data2jours avec donnees reelles   
+   #jour 1: [matin: {glycemie:[taux d'insuline rapide, taux lente]}, midi: {glycemie:[taux d'insuline rapide, taux lente=0]}, soir: {glycemie:[taux d'insuline rapide, taux lente]}, nuit: {glycemie:[taux d'insuline rapide=0, taux lente=0]}], meme format pour jour2
+   #initialisation de jour1 et jour2 avec donnees reelles   
+   
    def ajoutedata(self,chemindufichier):
       #ouverture fichier texte et enregistrement donnees
       j=open(chemindufichier,'r')
