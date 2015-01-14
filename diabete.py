@@ -57,14 +57,15 @@ class simulateur():
          print("on diminue l'insuline rapide")
       
       #2eme cas: glycemie trop elevee -> on augmente l'injection
-      if self.jour2[moment+1].keys()[0]>180:
-         k=augmenteinj(self.jour2[moment].values()[0][0])
-         print("on augmente l'insuline rapide")
+         else:
+            if self.jour2[moment+1].keys()[0]>180:
+               k=augmenteinj(self.jour2[moment].values()[0][0])
+               print("on augmente l'insuline rapide")
             
-      else :
+            else :
       #if self.jour2[moment+1].keys()[0]=<180 and self.jour2[moment+1].keys()[0]<=50:
-         k=self.jour2[moment].values()[0][0]
-         print("on garde la meme dose d'insuline rapide")
+               k=self.jour2[moment].values()[0][0]
+               print("on garde la meme dose d'insuline rapide")
          
       #si sport -> on diminue l'injection   
       if sport==True:
