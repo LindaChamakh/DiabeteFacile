@@ -7,7 +7,10 @@ import datetime
 def ecrireOuPasMatin(chemin):
 	f=open("/Users/lindachamakh/Documents/testgit/DiabeteFacile/diabete89new.txt",'r')
 	lignes=f.readlines()
+	#il faut prendre en compte deux sauts de lignes pour que ca marche bien
+	
 	sautLigne=lignes[len(lignes)-1]
+	#sautLigne1=lignes[len(lignes)-1]
 	derniereLigne=lignes[len(lignes)-2]
 	f.close()
 	assert(sautLigne=='\n')
@@ -18,7 +21,7 @@ def ecrireOuPasMatin(chemin):
 	    print('lol')
 	    return False
 	aujourdhui=datetime.date.today()
-	derniereInfo=mots[4]
+	derniereInfo=mots[len(mots)-1]
 	print("mots[3]=")
 	print(mots[3])
 	jour, mois, annee = derniereInfo.split('-')
@@ -40,7 +43,7 @@ def ecrireOuPasMidi(chemin):
 	if mots[0]!='matin':
 		return False
 	aujourdhui=datetime.date.today()
-	derniereInfo=mots[4]
+	derniereInfo=mots[len(mots)-1]
 	print("mots[3]=")
 	print(mots[3])
 	jour, mois, annee = derniereInfo.split('-')
@@ -61,7 +64,7 @@ def ecrireOuPasSoir(chemin):
 	if mots[0]!='midi':
 		return False
 	aujourdhui=datetime.date.today()
-	derniereInfo=mots[4]
+	derniereInfo=mots[len(mots)-1]
 	jour, mois, annee = derniereInfo.split('-')
 	derniereDate=datetime.date(int(annee),int(mois),int(jour))
 	if aujourdhui!=derniereDate:
@@ -79,7 +82,7 @@ def ecrireOuPasNuit(chemin):
 		if mots[0]!='soir':
 			return False
 		aujourdhui=datetime.date.today()
-		derniereInfo=mots[4]
+		derniereInfo=mots[len(mots)-1]
 		jour, mois, annee = derniereInfo.split('-')
 		derniereDate=datetime.date(int(annee),int(mois),int(jour))
 		if aujourdhui!=derniereDate:
@@ -176,7 +179,7 @@ class fenetre3(QtGui.QDialog):
                         date=" "+str(jour)+'-'+str(mois)+'-'+str(annee)
                         glycemieNuit=self.saisieGlycemieNuit.text()
                         fichier=open(self.databaseChemin,'a')
-                        fichier.write('nuit '+unicode(glycemieNuit)+' 0'+' 0'+date+'\n')
+                        fichier.write('nuit '+unicode(glycemieNuit)+' 0'+' 0'+date+'\n'+'\n')
                         fichier.close()
                         self.close()
                         print('lol')
@@ -331,40 +334,43 @@ class pageAccueil(QtGui.QMainWindow):
                 # Definition des widgets
                 # Textes
                 self.QuelRepas=QtGui.QLabel('Quel repas ?',self)
-                self.QuelRepas.move(20,30)
+                self.QuelRepas.move(40,30)
                 self.Sport=QtGui.QLabel('Sport ?',self)
-                self.Sport.move(168,30)
+                self.Sport.move(188,30)
                 self.RepasRiche=QtGui.QLabel('Repas riche ?',self)
-                self.RepasRiche.move(278,30)
+                self.RepasRiche.move(298,30)
                 self.CombienGlycemie=QtGui.QLabel('Glycemie ?',self)
                 self.CombienGlycemie.move(40,170)
                 # Cases a cocher
                 self.PtitDej=QtGui.QCheckBox('Ptit dej', self)
-                self.PtitDej.move(18,60)
+                self.PtitDej.move(40,60)
                 self.Dejeuner=QtGui.QCheckBox('Dejeuner', self)
-                self.Dejeuner.move(18,80)
+                self.Dejeuner.move(40,80)
                 self.Diner=QtGui.QCheckBox('Diner', self)
-                self.Diner.move(18,100)
+                self.Diner.move(40,100)
                 self.SportOui=QtGui.QCheckBox('Oui', self)
-                self.SportOui.move(148,60)
+                self.SportOui.move(188,60)
                 self.SportNon=QtGui.QCheckBox('Non', self)
-                self.SportNon.move(148,80)
+                self.SportNon.move(188,80)
                 self.RepasRicheOui=QtGui.QCheckBox('Oui', self)
-                self.RepasRicheOui.move(268,60)
+                self.RepasRicheOui.move(298,60)
                 self.RepasRicheNon=QtGui.QCheckBox('Non', self)
-                self.RepasRicheNon.move(268,80)
+                self.RepasRicheNon.move(298,80)
                 # Zone de saisie de texte
                 self.ZoneEntreeGlycemie=QtGui.QLineEdit(self)
-                self.ZoneEntreeGlycemie.move(60,220)
+                self.ZoneEntreeGlycemie.move(160,170)
+                
                 # Bouton "simuler"
-                self.BoutonSimuler=QtGui.QPushButton('Simuler',self)
-                self.BoutonSimuler.move(450,210)
+                self.BoutonSimuler=QtGui.QPushButton('S I M U L E R',self)
+                self.BoutonSimuler.move(50,240)
+                self.BoutonSimuler.resize(431,50)
+                self.BoutonSimuler.setStyleSheet('QPushButton {background-color: red}')
                 # Bouton glycemie nuit
                 self.BoutonGlycemieNuit=QtGui.QPushButton('Glycemie nuit',self)
-                self.BoutonGlycemieNuit.move(400,40)
-                self.BoutonGlycemieNuit.resize(201,41)
-                
-                
+                self.BoutonGlycemieNuit.move(300,170)
+                self.BoutonGlycemieNuit.resize(181,41)
+                self.BoutonGlycemieNuit.setStyleSheet('QPushButton {background-color: blue}')
+               
                 
                 # Connexion des widgets		
                 # Connexion des checkbox
@@ -380,7 +386,9 @@ class pageAccueil(QtGui.QMainWindow):
                 # Connexion glycemie nuit
                 self.BoutonGlycemieNuit.clicked.connect(self.saisieGlycemieNuit)
                 # Geometrie et affichage de la fenetre principale 
-                self.setGeometry(300,300,680,290)
+                self.setGeometry(300,250,550,350)
+                self.color = QtGui.QColor(25, 80, 0)
+                self.setStyleSheet("background:white")
                 self.setWindowTitle('DiabeteFacile')
                 self.show()
                 
