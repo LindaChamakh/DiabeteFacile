@@ -17,21 +17,23 @@ def ecrireOuPasMatin(chemin):
 	mots=derniereLigne.split()
 	print('\n mots:')
 	print(mots[0])
-	if mots[0]!='nuit':
-	    print('lol')
-	    return False
-	aujourdhui=datetime.date.today()
-	derniereInfo=mots[len(mots)-1]
-	print("mots[3]=")
-	print(mots[3])
-	jour, mois, annee = derniereInfo.split('-')
-	derniereDate=datetime.date(int(annee),int(mois),int(jour))
-	unJour = datetime.timedelta(days=1)
-	print(unJour)
-	if aujourdhui!=derniereDate+unJour:
-	    print('ok')
-	    return False
-	return True
+	try:
+		if mots[0]!='nuit':
+		    return False
+		aujourdhui=datetime.date.today()
+		derniereInfo=mots[len(mots)-1]
+		print("mots[3]=")
+		print(mots[3])
+		jour, mois, annee = derniereInfo.split('-')
+		derniereDate=datetime.date(int(annee),int(mois),int(jour))
+		unJour = datetime.timedelta(days=1)
+		print(unJour)
+		if aujourdhui!=derniereDate+unJour:
+		    print('ok')
+		    return False
+		return True
+	except:
+		return False
 
 
 def ecrireOuPasMidi(chemin):
@@ -40,18 +42,20 @@ def ecrireOuPasMidi(chemin):
 	derniereLigne=lignes[len(lignes)-1]
 	f.close()
 	mots=derniereLigne.split()
-	if mots[0]!='matin':
+	try:
+		if mots[0]!='matin':
+			return False
+		aujourdhui=datetime.date.today()
+		derniereInfo=mots[len(mots)-1]
+		print("mots[3]=")
+		print(mots[3])
+		jour, mois, annee = derniereInfo.split('-')
+		derniereDate=datetime.date(int(annee),int(mois),int(jour))
+		if aujourdhui!=derniereDate:
+			return False
+		return True
+	except:
 		return False
-	aujourdhui=datetime.date.today()
-	derniereInfo=mots[len(mots)-1]
-	print("mots[3]=")
-	print(mots[3])
-	jour, mois, annee = derniereInfo.split('-')
-	derniereDate=datetime.date(int(annee),int(mois),int(jour))
-	if aujourdhui!=derniereDate:
-		return False
-	return True
-	
 	
 	
 
@@ -61,16 +65,18 @@ def ecrireOuPasSoir(chemin):
 	derniereLigne=lignes[len(lignes)-1]
 	f.close()
 	mots=derniereLigne.split()
-	if mots[0]!='midi':
+	try:
+		if mots[0]!='midi':
+			return False
+		aujourdhui=datetime.date.today()
+		derniereInfo=mots[len(mots)-1]
+		jour, mois, annee = derniereInfo.split('-')
+		derniereDate=datetime.date(int(annee),int(mois),int(jour))
+		if aujourdhui!=derniereDate:
+			return False	
+		return True   
+	except:
 		return False
-	aujourdhui=datetime.date.today()
-	derniereInfo=mots[len(mots)-1]
-	jour, mois, annee = derniereInfo.split('-')
-	derniereDate=datetime.date(int(annee),int(mois),int(jour))
-	if aujourdhui!=derniereDate:
-		return False	
-	return True   
-	
 	
 def ecrireOuPasNuit(chemin):
 	f=open("/Users/lindachamakh/Documents/testgit/DiabeteFacile/diabete89new.txt",'r')
@@ -88,7 +94,7 @@ def ecrireOuPasNuit(chemin):
 		if aujourdhui!=derniereDate:
 			return False
 		return True             
-	except IndexError:
+	except :
 	    return False
         
         
@@ -151,6 +157,7 @@ class fenetre3(QtGui.QDialog):
 
         def initUI(self):
                 self.setGeometry(300,300,441,226)
+                self.setStyleSheet("background:white")
                 self.CombienGlycemie=QtGui.QLabel("Rentrez la glycemie de la nuit",self)
                 self.CombienGlycemie.move(30,30)
                 self.CombienGlycemie.resize(211,21)
@@ -224,10 +231,12 @@ class fenetre2(QtGui.QDialog):
 
         def initUI(self):
                 # Geometrie de la fenetre
-                self.setGeometry(0,0,650,239)
+                self.setGeometry(0,0,450,239)
+                self.setStyleSheet("background:white")
+                self.setWindowTitle('Simulation')
                 self.simulationFaite=QtGui.QLabel('Simulation faite !',self)
                 self.simulationFaite.move(10,30)
-                self.info="Tu devrais t'injecter "+str(self.insulineLente)+" d'insuline lente et "+str(self.insulineRapide)+" d'insuline rapide"
+                self.info="Tu devrais t'injecter "+str(self.insulineLente)+" unites d'insuline lente"+'\n'+ "et "+str(self.insulineRapide)+" unites d'insuline rapide"
                 self.affichageSimulation=QtGui.QLabel(self.info,self)
                 self.affichageSimulation.move(10,60)
                 self.daccOuPas=QtGui.QLabel("Tu es d'accord ?",self)
@@ -328,7 +337,6 @@ class pageAccueil(QtGui.QMainWindow):
 
                 self.initUI()
 
-#s=diabete.simulateur()
         def initUI(self):
                 
                 # Definition des widgets
@@ -382,7 +390,7 @@ class pageAccueil(QtGui.QMainWindow):
                 self.RepasRicheOui.stateChanged.connect(self.choixRepasRiche)
                 self.RepasRicheNon.stateChanged.connect(self.choixRepasRiche)
                 # Connexion du bouton 'Simuler'
-                self.BoutonSimuler.clicked.connect(self.simulerClicked)
+                self.BoutonSimuler.clicked.connect(self.simulerClicked)   
                 # Connexion glycemie nuit
                 self.BoutonGlycemieNuit.clicked.connect(self.saisieGlycemieNuit)
                 # Geometrie et affichage de la fenetre principale 
@@ -417,19 +425,17 @@ class pageAccueil(QtGui.QMainWindow):
                 #se trouvent pas dans derniere version
                 # Allocation memoire pour courant
 
-                        
-                        
         def changeCouleurFond(self):
-                couleur=QtGui.QColorDialog.getColor(Qt.white,self)
-                palette=QtGui.QPalette()
-                palette.setColor(QtGui.QPalette.Background,couleur)
-                self.setPalette(palette)
-
+        		couleur = QtGui.QColorDialog.getColor()
+        		if couleur.isValid():
+        			self.setStyleSheet("QWidget { background-color: %s }"% couleur.name())
+        
         def changeCouleurBouton(self):
-                couleur=QtGui.QColorDialog.getColor(Qt.white,self)
-                palette=QtGui.QPalette()
-                palette.setColor(QtGui.QPalette.Button,couleur)
-                self.BoutonSimuler.setPalette(palette)
+				couleur=QtGui.QColorDialog.getColor(Qt.white,self)
+				palette=QtGui.QPalette()
+				palette.setColor(QtGui.QPalette.Button,couleur)
+				self.BoutonSimuler.setPalette(palette)                
+                        
 
 
         def changePolice(self):
@@ -487,21 +493,32 @@ class pageAccueil(QtGui.QMainWindow):
         def simulerClicked(self):
                 
                 # Initialisation de simuli.courant
-                glycemieValue=self.ZoneEntreeGlycemie.text()
                 
-                if self.moment==0:
-                	self.simuli.ajoutedata(self.databaseInitialChemin)
+                
+                	
  
                 
                 # Calculs 
-                insulineLenteSimulee=self.simuli.insulinelente(self.moment,self.sport,self.repasRiche)
-                insulineRapideSimulee=self.simuli.insulinerapide(self.moment,self.sport,self.repasRiche)
-                
-                # Affichage d'une nouvelle fenetre avec le resultat de la simulation dessus
-                affichageSimulation=fenetre2(self.simuli,float(unicode(glycemieValue)),0,self.databaseInitialChemin,self.moment,self.sport,self.repasRiche,insulineLenteSimulee,insulineRapideSimulee)
-                affichageSimulation.exec_()
+                try:
+                    glycemieValue=self.ZoneEntreeGlycemie.text()
+	                    
+                    if self.moment==0:
+                	   self.simuli.ajoutedata(self.databaseInitialChemin)
+                	   
+                	
+                    insulineLenteSimulee=self.simuli.insulinelente(self.moment,self.sport,self.repasRiche)
+                    insulineRapideSimulee=self.simuli.insulinerapide(self.moment,self.sport,self.repasRiche)
+                 # Affichage d'une nouvelle fenetre avec le resultat de la simulation dessus
+                    affichageSimulation=fenetre2(self.simuli,float(unicode(glycemieValue)),0,self.databaseInitialChemin,self.moment,self.sport,self.repasRiche,insulineLenteSimulee,insulineRapideSimulee)
+                    affichageSimulation.exec_()
+                except ValueError:
+	                QtGui.QMessageBox.warning(self,'',"Merci d'entrer ta glycemie")  
+               
 # float(unicode(glycemieNuitValue))
 
+
+                                                     
+        		    
         def saisieGlycemieNuit(self):
                 fenetreSaisieGlycemie=fenetre3(self.databaseInitialChemin)
                 fenetreSaisieGlycemie.exec_()
