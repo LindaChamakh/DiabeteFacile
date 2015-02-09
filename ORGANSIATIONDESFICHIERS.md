@@ -11,4 +11,4 @@ Les autres fichiers commençant par main sont obsolètes.
 Les fichiers concernant la régression linéaire pour obtenir la glycémie sont:
 regression_glycemie.py pour le programme
 diabetedata_Xmatin.txt et diabetedata_Ymatin.txt pour la régression
-diabete_Xmatin.txt et diabete_Ymatin.txt pour le test de la qualité de la régression
+diabetetest_Xmatin.txt et diabetetest_Ymatin.txt pour le test de la qualité de la régression
