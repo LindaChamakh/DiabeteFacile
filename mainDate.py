@@ -7,10 +7,8 @@ import datetime
 def ecrireOuPasMatin(chemin):
 	f=open("/Users/lindachamakh/Documents/testgit/DiabeteFacile/diabete89new.txt",'r')
 	lignes=f.readlines()
-	#il faut prendre en compte deux sauts de lignes pour que ca marche bien
 	
 	sautLigne=lignes[len(lignes)-1]
-	#sautLigne1=lignes[len(lignes)-1]
 	derniereLigne=lignes[len(lignes)-2]
 	f.close()
 	assert(sautLigne=='\n')
@@ -305,7 +303,6 @@ class fenetre2(QtGui.QDialog):
                               QtGui.QMessageBox.warning(self,'',msg)
                         
                         self.simuli.courant[self.moment]=d
-                        #pas sure que ca marche:
                         QtGui.QMessageBox.information(self,"Info'","Ces donnees que tu viens de saisir sont rajoutees a la base de donnee :\n"+self.databaseChemin)
                 print("self.moment=")
                 print(self.moment)
@@ -422,8 +419,6 @@ class pageAccueil(QtGui.QMainWindow):
                 actionPoliceSaisie.triggered.connect(self.changePoliceSaisie)
                 menuApparence.addAction(actionPoliceSaisie)
                 
-                #se trouvent pas dans derniere version
-                # Allocation memoire pour courant
 
         def changeCouleurFond(self):
         		couleur = QtGui.QColorDialog.getColor()
@@ -514,7 +509,6 @@ class pageAccueil(QtGui.QMainWindow):
                 except ValueError:
 	                QtGui.QMessageBox.warning(self,'',"Merci d'entrer ta glycemie")  
                
-# float(unicode(glycemieNuitValue))
 
 
                                                      
